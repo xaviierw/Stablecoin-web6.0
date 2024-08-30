@@ -9,18 +9,17 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    flex-direction: column;
 }
 
-/* Main Container */
 .container {
     text-align: center;
     width: 90%;
-    max-width: 800px;
+    max-width: 1200px;
 }
 
-/* Group Name Styles */
 .group-name {
-    font-family: 'Orbitron', sans-serif; /* A futuristic font */
+    font-family: 'Orbitron', sans-serif;
     font-size: 3em;
     color: #7209b7;
     text-shadow: 2px 2px 8px #000000;
@@ -39,57 +38,12 @@ body {
     }
 }
 
-/* Header Styles */
 h1 {
     color: #c5c6c7;
     font-size: 2.5em;
     margin-bottom: 20px;
 }
 
-/* Form Container Styles */
-.form-container {
-    background: #2b2b3d;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    margin-bottom: 20px;
-}
-
-label {
-    font-size: 1.2em;
-    color: #c5c6c7;
-}
-
-select, button {
-    font-size: 1em;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: none;
-    width: 100%;
-    max-width: 300px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-select {
-    background-color: #444;
-    color: #ffffff;
-}
-
-button {
-    background-color: #7209b7;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-button:hover {
-    background-color: #560bad;
-    transform: scale(1.05);
-}
-
-/* Loading Container Styles */
 .loading-container {
     display: none;
     flex-direction: column;
@@ -117,25 +71,20 @@ button:hover {
     }
 }
 
-.loading-text, .loading-text-2 {
+.loading-text {
     color: #c5c6c7;
     font-size: 1.1em;
 }
 
-/* Result and Info Container Styles */
 .result {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: nowrap;
     margin-top: 20px;
     text-align: left;
-}
-
-.info-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .info-card {
@@ -144,15 +93,19 @@ button:hover {
     border-radius: 10px;
     padding: 20px;
     margin: 10px;
-    width: calc(100% - 40px);
-    max-width: 350px;
+    flex-grow: 1;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
+    min-height: 340px;
 }
 
 .info-card h2 {
     margin-top: 0;
-    color: #7209b7;
+    color: #ff4081;
 }
 
 .info-card p {
@@ -164,7 +117,23 @@ button:hover {
     color: #f8f9fa;
 }
 
-/* Back Button Styles */
+.info-card .contract-label, .info-card .tx-hash-label {
+    font-size: 1em;
+    color: #ffffff;
+}
+
+.info-card .contract-link, .info-card .tx-hash {
+    font-size: 0.9em;
+    color: #9fd3f5;
+    text-decoration: none;
+    display: block;
+    margin-top: 5px;
+}
+
+.info-card .contract-link:hover, .info-card .tx-hash:hover {
+    text-decoration: underline;
+}
+
 .back-button-container {
     display: flex;
     justify-content: center;
@@ -179,7 +148,7 @@ button:hover {
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s, transform 0.3s;
-    display: none; /* Ensure the button is hidden by default */
+    display: none;
 }
 
 .back-button:hover {
@@ -187,13 +156,14 @@ button:hover {
     transform: scale(1.05);
 }
 
-/* Responsive Design */
-@media (max-width: 480px) {
-    .info-card {
-        width: calc(100% - 20px);
+@media (max-width: 768px) {
+    .result {
+        flex-wrap: wrap;
     }
 
-    select, button {
+    .info-card {
         width: 100%;
+        max-width: 100%;
+        margin: 10px 0;
     }
 }

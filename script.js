@@ -1,94 +1,47 @@
-document.getElementById('stablecoin-form').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const stablecoinInput = document.getElementById('stablecoin').value.toLowerCase().trim();
-    showLoadingScreen(stablecoinInput);
-});
+document.addEventListener('DOMContentLoaded', function () {
+    showLoadingScreen();
 
-function showLoadingScreen(stablecoinInput) {
-    const formContainer = document.querySelector('.form-container');
-    const loadingContainer = document.getElementById('loading-container');
-    const loadingText = document.getElementById('loading-text');
-    const loadingText2 = document.getElementById('loading-text-2');
-    const resultDiv = document.getElementById('result');
-    const infoContainer = document.getElementById('info-container');
-    const submitButton = document.querySelector('button[type="submit"]');
-    const backButton = document.querySelector('.back-button');
-
-    formContainer.style.display = 'none';
-    loadingContainer.style.display = 'flex';
-    loadingText.style.display = 'block';
-    loadingText2.style.display = 'block';
-    submitButton.disabled = true;
-
-    // Ensure the back button is hidden initially
-    backButton.style.display = 'none';
-
-    loadingText.textContent = `Fetching ${stablecoinInput.toUpperCase()} total supply...`;
-    loadingText2.textContent = `Fetching custodian total minted...`;
-
-    fetchTotalSupply(stablecoinInput).then(totalSupply => {
-        if (totalSupply) {
-            const custodianMinted = (parseFloat(totalSupply) * 0.95).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            populateData(stablecoinInput, totalSupply, custodianMinted);
-            loadingContainer.style.display = 'none';
-            resultDiv.style.display = 'flex';
-            infoContainer.style.display = 'flex';
-            backButton.style.display = 'block';  // Show the back button after the data is fetched
-        } else {
-            alert('Failed to fetch data. Please try again.');
-            resetUI();
-        }
-    }).catch(error => {
-        console.error('Error fetching the data:', error);
-        alert('An error occurred. Please try again.');
-        resetUI();
-    }).finally(() => {
-        submitButton.disabled = false;
-    });
-}
-
-function fetchTotalSupply(stablecoinInput) {
     const endpoints = {
-        'tether': 'http://localhost:3000/getUSDT',
-        'usd-coin': 'http://localhost:3000/getUSDC',
+        'usdt': 'http://localhost:3000/getUSDT',
+        'usdc': 'http://localhost:3000/getUSDC',
         'dai': 'http://localhost:3000/getKDAI'
     };
 
-    const url = endpoints[stablecoinInput];
+    const fetchAndDisplayData = async (endpoint, mintedElementId, collateralElementId, txHashElementId) => {
+        try {
+            const response = await fetch(endpoint);
+            const totalMinted = await response.text();
+            const custodianCollateral = Math.floor(0.95 * parseFloat(totalMinted)).toLocaleString(); // Removed decimal places
 
-    return fetch(url)
-        .then(response => response.text())
-        .then(data => data)
-        .catch(error => {
-            console.error('Error fetching total supply:', error);
-            return null;
-        });
-}
+            document.getElementById(mintedElementId).textContent = parseFloat(totalMinted).toLocaleString();
+            document.getElementById(collateralElementId).textContent = custodianCollateral;
+            
+            // Display a simulated TX-Hash
+            const simulatedTxHash = '0x' + Math.random().toString(16).substr(2, 16);
+            document.getElementById(txHashElementId).textContent = simulatedTxHash;
 
-function populateData(stablecoinInput, totalSupply, custodianMinted) {
-    // Format the totalSupply and custodianMinted with commas
-    const formattedTotalSupply = parseFloat(totalSupply).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    const formattedCustodianMinted = custodianMinted;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
-    // Populate total minted information
-    document.getElementById('total-minted').textContent = `${formattedTotalSupply} ${stablecoinInput.toUpperCase()}`;
+    fetchAndDisplayData(endpoints['usdt'], 'total-minted-usdt', 'custodian-collateral-usdt', 'tx-hash-usdt');
+    fetchAndDisplayData(endpoints['usdc'], 'total-minted-usdc', 'custodian-collateral-usdc', 'tx-hash-usdc');
+    fetchAndDisplayData(endpoints['dai'], 'total-minted-dai', 'custodian-collateral-dai', 'tx-hash-dai');
 
-    // Populate custodian minted information
-    document.getElementById('custodian-minted').textContent = `${formattedCustodianMinted} ${stablecoinInput.toUpperCase()}`;
-}
+    setTimeout(() => {
+        document.getElementById('loading-container').style.display = 'none';
+        document.getElementById('result').style.display = 'flex';
+        document.querySelector('.back-button').style.display = 'block';
+    }, 3000); // Adjust the timeout to ensure data loads properly
+});
 
-function resetUI() {
-    const formContainer = document.querySelector('.form-container');
+function showLoadingScreen() {
     const loadingContainer = document.getElementById('loading-container');
-    const resultDiv = document.getElementById('result');
-    const infoContainer = document.getElementById('info-container');
-    const backButton = document.querySelector('.back-button');
-
-    formContainer.style.display = 'block';
-    loadingContainer.style.display = 'none';
-    resultDiv.style.display = 'none';
-    infoContainer.style.display = 'none';
-    backButton.style.display = 'none';  // Ensure the button is hidden again
+    if (loadingContainer) {
+        loadingContainer.style.display = 'flex';
+        document.getElementById('spinner').style.display = 'block'; // Show spinner
+    } else {
+        console.error('Loading container not found!');
+    }
 }
-
-document.querySelector('.back-button').addEventListener('click', resetUI);

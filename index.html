@@ -15,39 +15,43 @@
         </div>
         
         <h1>Stablecoin Collateral Checker</h1>
-        <div class="form-container">
-            <form id="stablecoin-form">
-                <label for="stablecoin">Select Stablecoin:</label>
-                <select id="stablecoin" name="stablecoin">
-                    <option value="tether">USDT</option>
-                    <option value="usd-coin">USDC</option>
-                    <option value="dai">DAI</option>
-                </select>
-                <button type="submit">Check Collateral</button>
-            </form>
-        </div>
 
-        <div class="loading-container" id="loading-container">
-            <div class="spinner"></div>
-            <div class="loading-text" id="loading-text">Fetching data...</div>
-            <div class="loading-text-2" id="loading-text-2">Fetching custodian total minted...</div>
+        <div id="loading-container" class="loading-container">
+            <div id="spinner" class="spinner"></div>
+            <div class="loading-text">Fetching data...</div>
         </div>
 
         <div class="result" id="result" style="display: none;">
-            <div class="info-container" id="info-container">
-                <div class="info-card">
-                    <h2>Minted Information</h2>
-                    <p><strong>Total Minted:</strong> <span id="total-minted"></span></p>
-                </div>
-                <div class="info-card">
-                    <h2>Total Minted for Custodian</h2>
-                    <p><strong>Custodian Minted:</strong> <span id="custodian-minted"></span></p>
-                </div>
+            <!-- Row for USDT -->
+            <div class="info-card">
+                <h2>USDT (Tether)</h2>
+                <p><strong>Total Minted:</strong><br> <span id="total-minted-usdt"></span> USDT</p>
+                <p><strong>Token Contract Address:</strong><br> <a href="https://klaytnscope.com/account/0x9025095263d1e548dc890a7589a4c78038ac40ab?tabId=txList" class="contract-link" target="_blank">0x9025095263d1e548dc890a7589a4c78038ac40ab</a></p>
+                <p><strong>Custodian Collateral:</strong><br> <span id="custodian-collateral-usdt"></span> USD</p>
+                <p><strong>TX-Hash:</strong><br> <span id="tx-hash-usdt"></span></p>
+            </div>
+
+            <!-- Row for USDC -->
+            <div class="info-card">
+                <h2>USDC (Circle)</h2>
+                <p><strong>Total Minted:</strong><br> <span id="total-minted-usdc"></span> USDC</p>
+                <p><strong>Token Contract Address:</strong><br> <a href="https://klaytnscope.com/account/0x608792deb376cce1c9fa4d0e6b7b44f507cffa6a?tabId=txList" class="contract-link" target="_blank">0x608792deb376cce1c9fa4d0e6b7b44f507cffa6a</a></p>
+                <p><strong>Custodian Collateral:</strong><br> <span id="custodian-collateral-usdc"></span> USD</p>
+                <p><strong>TX-Hash:</strong><br> <span id="tx-hash-usdc"></span></p>
+            </div>
+
+            <!-- Row for DAI -->
+            <div class="info-card">
+                <h2>KDAI (MakerDAO)</h2>
+                <p><strong>Total Minted:</strong><br> <span id="total-minted-dai"></span> KDAI</p>
+                <p><strong>Token Contract Address:</strong><br> <a href="https://klaytnscope.com/account/0x5c74070fdea071359b86082bd9f9b3deaafbe32b?tabId=txList" class="contract-link" target="_blank">0x5c74070fdea071359b86082bd9f9b3deaafbe32b</a></p>
+                <p><strong>Custodian Collateral:</strong><br> <span id="custodian-collateral-dai"></span> USD</p>
+                <p><strong>TX-Hash:</strong><br> <span id="tx-hash-dai"></span></p>
             </div>
         </div>
 
         <div class="back-button-container">
-            <button class="back-button" onclick="location.reload()">Back to Home</button>
+            <button class="back-button" onclick="location.reload()">Refresh</button>
         </div>
     </div>
 </body>
