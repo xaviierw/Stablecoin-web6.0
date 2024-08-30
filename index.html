@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stablecoin Collateral Checker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Group Name with stylized lettering -->
+        <div class="group-name">
+            X-WAT
+        </div>
+        
+        <h1>Stablecoin Collateral Checker</h1>
+        <div class="form-container">
+            <form id="stablecoin-form">
+                <label for="stablecoin">Select Stablecoin:</label>
+                <select id="stablecoin" name="stablecoin">
+                    <option value="tether">USDT</option>
+                    <option value="usd-coin">USDC</option>
+                    <option value="dai">DAI</option>
+                </select>
+                <button type="submit">Check Collateral</button>
+            </form>
+        </div>
+
+        <div class="loading-container" id="loading-container">
+            <div class="spinner"></div>
+            <div class="loading-text" id="loading-text">Fetching data...</div>
+            <div class="loading-text-2" id="loading-text-2">Fetching custodian total minted...</div>
+        </div>
+
+        <div class="result" id="result" style="display: none;">
+            <div class="info-container" id="info-container">
+                <div class="info-card">
+                    <h2>Minted Information</h2>
+                    <p><strong>Total Minted:</strong> <span id="total-minted"></span></p>
+                </div>
+                <div class="info-card">
+                    <h2>Total Minted for Custodian</h2>
+                    <p><strong>Custodian Minted:</strong> <span id="custodian-minted"></span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-button-container">
+            <button class="back-button" onclick="location.reload()">Back to Home</button>
+        </div>
+    </div>
+</body>
+</html>
